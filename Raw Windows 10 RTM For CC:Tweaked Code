@@ -1,0 +1,247 @@
+-- First Things First
+
+os.pullEvent = os.pullEventRaw
+term.clear()
+term.setCursorPos(1,1)
+sleep(0.6)
+print("Readong OSBOOT.lua")
+sleep(0.6)
+print("Reading OSShell_Ver123.lua")
+sleep(0.6)
+print("Reading UIS_TOBOTKOSBOOT.lua")
+sleep(0.6)
+print("Reading Shell16.lua")
+sleep(0.6)
+print("Reading OS_BiosTest.lua")
+sleep(0.6)
+print("Reading OS_TestStart")
+sleep(0.6)
+print("Reading OS_ShellStart_StartupMainCCRE.lua")
+sleep(0.6)
+print("Reading OSCMD")
+sleep(0.6)
+print("Reading OS_SL32.lua")
+sleep(3)
+ 
+-- Bios Testing
+ 
+term.clear()
+term.setCursorPos(1,1)
+print("Testing Bios")
+sleep(3.1)
+print("Testing Windows 10 OS Files")
+sleep(3.1)
+print("Testing Drive")
+sleep(2.1)
+print("Bios 100%")
+print("Windows 10 Files 100%")
+print("Drive 100%")
+sleep(4.9)
+ 
+-- Spinning Dotted Circle with Time Limit
+
+local function loadingSpinner(duration)
+    local symbols = {".", "..", "...", "....", ".....", "......"}  -- Dotted effect
+    local i = 1
+    local startTime = os.clock()  -- Record the start time
+
+    while os.clock() - startTime < duration do  -- Run for the specified duration
+        term.setCursorPos(18, 8)
+        term.clearLine()
+        term.write("Loading " .. symbols[i])
+        sleep(0.3)  -- Adjust speed if needed
+        i = i + 1
+        if i > #symbols then
+            i = 1  -- Reset the cycle after the last symbol
+        end
+    end
+end
+
+-- Windows 10 Bootup
+ 
+term.clear()
+term.setCursorPos(18,6)
+term.setTextColor(colors.blue)
+print("Windows 10")
+sleep(2)
+loadingSpinner(10)
+term.clear()
+sleep(0.7)
+term.setCursorPos(18,5)
+print("Starting services...")
+sleep(4)
+term.setCursorPos(17,6)
+print("Loading User Profiles...")
+sleep(4)
+term.setCursorPos(17,7)
+print("Configuring Network Drivers...")
+sleep(4)
+term.setCursorPos(17,8)
+print("Preparing Windows For Login")
+sleep(4)
+ 
+-- Sign In Prompt
+ 
+term.clear()
+term.setCursorPos(18,1)
+print("Enter Your User Name")
+term.setCursorPos(15,2)
+read()
+term.setCursorPos(18,3)
+print("Now For Your Password")
+term.setCursorPos(15,4)
+read("*")
+ 
+-- Define Screen Dimensions
+local w, h = term.getSize()
+ 
+-- Function to Redraw the Desktop
+ 
+local function redrawDesktop()
+    term.setBackgroundColor(colors.blue)
+    term.clear()
+    term.setCursorPos(1, 1)
+    term.setTextColor(colors.white)
+    print("|   |")
+    print("|   |")
+    print("|___|")
+    print("Trash")
+    term.setCursorPos(2, h)
+    term.setBackgroundColor(colors.black)
+    term.clearLine()
+    term.write("[ Start ]")
+end
+ 
+-- Function to Open the Programs Menu
+ 
+local function openPrograms()
+    term.clear()
+    term.setCursorPos(1, 1)
+    term.setBackgroundColor(colors.blue)
+    term.setTextColor(colors.white)
+    print("Programs Menu")
+    print("[1] Calculator")
+    print("[2] Winver")
+    print("[3] Explorer")
+    print("[4] Spotifiy") 
+    print("[5] Back")
+    term.setCursorPos(1, h - 1)
+    term.write("Enter choice: ")
+    local choice = tonumber(read())
+ 
+    if choice == 1 then
+        shell.run("Calc") -- Ensure this program exists
+    elseif choice == 2 then
+        term.clear()
+        term.setCursorPos(1, 1)
+        print("Windows 10 RTM Ver 1.0.0 Beta")
+        sleep(2)
+        redrawDesktop()
+        elseif choice == 3 then
+         print("Explorer is not yet available in this version.") 
+         sleep(2) -- Give them time to read it
+         redrawDesktop() -- Go back to the desktop
+    elseif choice == 4 then
+        shell.run("Spotifiy")
+    elseif choice == 5 then
+        redrawDesktop()
+    else
+        print("Invalid choice. Returning to desktop...")
+        sleep(2)
+        redrawDesktop()
+    end
+end
+ 
+-- Function to Open the Power Menu
+ 
+local function openPower()
+    term.clear()
+    term.setCursorPos(1, 1)
+    term.setBackgroundColor(colors.blue)
+    term.setTextColor(colors.white)
+    print("Power Menu")
+    print("")
+    print("[1] Shutdown")
+    print("[2] Restart")
+    print("[3] Back")
+    term.setCursorPos(1, h - 1)
+    term.write("Enter choice: ")
+    local userinput = tonumber(read())
+ 
+    if userinput == 1 then
+        term.clear()
+        term.setCursorPos(17,9)
+        print("Shuting Down")
+        sleep(2)
+        os.shutdown()
+    elseif userinput == 2 then
+        term.clear()
+        term.setCursorPos(18,9)
+        print("Restarting")
+        sleep(2)
+        os.reboot()
+    elseif userinput == 3 then
+        redrawDesktop()
+    end
+end
+ 
+-- Function to Open the Start Menu
+ 
+local function openStartMenu()
+    term.clear()
+    term.setCursorPos(1, 1)
+    term.setBackgroundColor(colors.blue)
+    term.setTextColor(colors.white)
+    print("Start Menu")
+    print("")
+ 
+    print("Menu's")
+    print("")
+    print("[1] Power >")
+    print("[2] Programs >")
+    print("")
+    print("Pinned")
+    print("")
+    print("[3] Command Prompt")
+    print("[4] Back To Desktop")
+    term.setCursorPos(1, h - 1)
+    term.write("Enter choice: ")
+    local userinput = tonumber(read())
+ 
+    if userinput == 1 then
+        openPower()
+    elseif userinput == 2 then
+        openPrograms()
+    elseif userinput == 3 then
+        shell.run("CMD.lua")
+    elseif userinput == 4 then
+        redrawDesktop()
+    else
+        print("Invalid choice. Returning to desktop...")
+        sleep(2)
+        redrawDesktop()
+    end
+end
+ 
+-- Main Function to Start the UI
+ 
+local function main()
+    redrawDesktop()
+    while true do
+        local event, button, x, y = os.pullEvent("mouse_click")
+        if y == h and x >= 2 and x <= 8 then -- If "Start" is clicked
+            openStartMenu()
+        elseif y == h and x >= 1 and x <= 1 then
+            term.clear()
+            term.setCursorPos(1,1)
+            term.setBackgroundColor(colors.blue)
+            print("Trash")
+            print(".menu.lua")
+            print("music") 
+            end
+        end
+    end
+ 
+-- Run the Program
+main()
+
